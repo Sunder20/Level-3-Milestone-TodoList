@@ -1,27 +1,32 @@
 require "date"
 
 class Todo
-  attr_accessor :text,:due_date,:completed,:is_overdue,:is_duetoday,:is_duelater
+  attr_accessor :text,:due_date,:completed
+
   def initialize(t,d,c)
     @text=t
     @due_date=d
     @completed=c
   end
+
   def is_duetoday?
     if @due_date==Date.today
       return true
     end
   end
+
   def is_overdue?
     if @due_date<Date.today
       return true
     end
   end
+
   def is_duelater?
     if @due_date>Date.today
       return true
     end
   end
+
   def to_displayable_string
     if is_duetoday? 
       if @completed==true
@@ -42,23 +47,27 @@ end
 
 class TodosList
   attr_accessor :todos
+
   def initialize(todo)
     @todos=todo
   end
+
   def add(todo)
     @todos << todo
   end
+
   def overdue
     TodosList.new(@todos.select { |todo| todo.is_overdue? })
   end  
+
   def due_today
     TodosList.new(@todos.select { |todo| todo.is_duetoday? })
   end
+
   def due_later
     TodosList.new(@todos.select { |todo| todo.is_duelater? })
   end
 
- 
   def to_displayable_list
     @todos=@todos.map { |todo| todo.to_displayable_string}
   end
