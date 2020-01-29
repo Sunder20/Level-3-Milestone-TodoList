@@ -28,20 +28,18 @@ class Todo
     end
 
     def to_displayable_string
-        if is_duetoday? 
-            if @completed==true
-                s="[X] #{@text}"
-            else
-                s="[ ] #{@text} "
-            end
+        if completed==true 
+            status="[X]"
         else
-            if @completed==true
-                s="[X] #{@text} #{@due_date} "
-            else
-                s="[ ] #{@text} #{@due_date} "
-            end 
+            status="[ ]"
         end
-        return s
+        date=@due_date
+        if is_duetoday?
+            line="#{status} #{@text}"
+        else
+            line="#{status} #{@text} #{date}"
+        end
+        return line
     end
 end  
 
@@ -67,7 +65,7 @@ class TodosList
     def due_later
         TodosList.new(@todos.select { |todo| todo.is_duelater? })
     end
-    
+
     def to_displayable_list
         @todos=@todos.map { |todo| todo.to_displayable_string}
     end
