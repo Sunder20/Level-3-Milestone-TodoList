@@ -2,7 +2,7 @@ require "date"
 
 class Todo
     attr_accessor :text,:due_date,:completed
-
+    
     def initialize(t,d,c)
         @text=t
         @due_date=d
@@ -55,15 +55,15 @@ class TodosList
     end
 
     def overdue
-        TodosList.new(@todos.select { |todo| todo.is_overdue? })
+        TodosList.new(@todos.filter { |todo| todo.is_overdue? })
     end
 
     def due_today
-        TodosList.new(@todos.select { |todo| todo.is_duetoday? })
+        TodosList.new(@todos.filter { |todo| todo.is_duetoday? })
     end
 
     def due_later
-        TodosList.new(@todos.select { |todo| todo.is_duelater? })
+        TodosList.new(@todos.filter { |todo| todo.is_duelater? })
     end
 
     def to_displayable_list
