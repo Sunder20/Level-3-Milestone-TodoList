@@ -1,74 +1,74 @@
 require "date"
 
 class Todo
-    attr_accessor :text,:due_date,:completed
-    
-    def initialize(t,d,c)
-        @text=t
-        @due_date=d
-        @completed=c
-    end
+  attr_accessor :text, :due_date, :completed
 
-    def is_duetoday?
-        if @due_date==Date.today
-            return true
-        end
-    end
+  def initialize(t, d, c)
+    @text = t
+    @due_date = d
+    @completed = c
+  end
 
-    def is_overdue?
-        if @due_date<Date.today
-            return true
-        end
+  def is_duetoday?
+    if @due_date == Date.today
+      return true
     end
+  end
 
-    def is_duelater?
-        if @due_date>Date.today
-            return true
-        end
+  def is_overdue?
+    if @due_date < Date.today
+      return true
     end
+  end
 
-    def to_displayable_string
-        if completed==true 
-            status="[X]"
-        else
-            status="[ ]"
-        end
-        date=@due_date
-        if is_duetoday?
-            line="#{status} #{@text}"
-        else
-            line="#{status} #{@text} #{date}"
-        end
-        return line
+  def is_duelater?
+    if @due_date > Date.today
+      return true
     end
-end  
+  end
+
+  def to_displayable_string
+    if completed == true
+      status = "[X]"
+    else
+      status = "[ ]"
+    end
+    date = @due_date
+    if is_duetoday?
+      line = "#{status} #{@text}"
+    else
+      line = "#{status} #{@text} #{date}"
+    end
+    return line
+  end
+end
 
 class TodosList
-    attr_accessor :todos
+  attr_accessor :todos
 
-    def initialize(todo)
-        @todos=todo
-    end
+  def initialize(todo)
+    @todos = todo
+  end
 
-    def add(todo)
-        @todos << todo
-    end
+  def add(todo)
+    @todos << todo
+  end
 
-    def overdue
-        TodosList.new(@todos.filter { |todo| todo.is_overdue? })
-    end
+  def overdue
+    TodosList.new(@todos.filter { |todo| todo.is_overdue? })
+  end
 
-    def due_today
-        TodosList.new(@todos.filter { |todo| todo.is_duetoday? })
-    end
+  def due_today
+    TodosList.new(@todos.filter { |todo| todo.is_duetoday? })
+  end
 
-    def due_later
-        TodosList.new(@todos.filter { |todo| todo.is_duelater? })
-    end
+  def due_later
+    TodosList.new(@todos.filter { |todo| todo.is_duelater? })
+  end
 
-    def to_displayable_list
-        @todos=@todos.map { |todo| todo.to_displayable_string}
-    end
+  def to_displayable_list
+    @todos = @todos.map { |todo| todo.to_displayable_string }
+  end
 end
 
 #main
